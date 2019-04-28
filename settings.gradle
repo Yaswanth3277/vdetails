@@ -1,1 +1,1 @@
-include ':app', ':Tdetector'
+include ':app'

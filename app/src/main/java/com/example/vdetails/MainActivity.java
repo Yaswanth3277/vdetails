@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         textView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent uploadVid =new Intent(MainActivity.this,uploadVid.class);
+                Intent uploadVid =new Intent(MainActivity.this,BaseClass.class);
                 startActivity(uploadVid);
             }
         });
