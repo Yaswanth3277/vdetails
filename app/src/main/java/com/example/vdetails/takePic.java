@@ -12,16 +12,21 @@ import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.annotation.NonNull;
+
+import com.example.vdetails.OcrManager;
 
 
 public class takePic extends Activity {
     private int STORAGE_PERMISSION_CODE = 1;
 
     private static final int CAMERA_PIC_REQUEST = 2500;
+
+    Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +61,24 @@ public class takePic extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
+            image = (Bitmap) data.getExtras().get("data");
             ImageView imageview =  findViewById(R.id.ImageView01);
             imageview.setImageBitmap(image);
+        }
+    }
+
+    public void onGetText(View view){
+
+        TextView text = findViewById(R.id.textDisp);
+
+        try {
+            OcrManager ocr = new OcrManager();
+            String imageText = ocr.startRecognize(image);
+            text.setText(imageText);
+        }
+        catch (Exception e){
+
+            e.printStackTrace();
         }
     }
 
