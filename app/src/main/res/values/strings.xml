@@ -14,4 +14,7 @@
     <string name="ocr_success">Text read successfully</string>
     <string name="ocr_failure">No text captured</string>
     <string name="ocr_error">"Error reading text: %1$s"</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="owner_name">Owner Name</string>
+    <string name="name">Name</string>
 </resources>
