@@ -40,6 +40,7 @@
         <activity android:name=".uploadPic"/>
         <activity android:name=".takePic"/>
         <activity android:name=".uploadVid"/>
+        <activity android:name=".vehicleDetails"/>
 
     </application>
 

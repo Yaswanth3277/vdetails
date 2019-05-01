@@ -58,4 +58,13 @@
         android:layout_alignParentEnd="true"
         android:checked="false" />
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="84dp"
+        android:layout_marginLeft="130dp"
+        android:text="@string/Get_Details" />
+
 </RelativeLayout>

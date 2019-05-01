@@ -28,12 +28,13 @@
         android:layout_alignEnd="@+id/status_message" />
 
     <Button
+        android:id="@+id/read_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/read_text"
-        android:id="@+id/read_text"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="80dp"
+        android:text="@string/read_text" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -53,5 +54,15 @@
         android:layout_alignTop="@+id/auto_focus"
         android:layout_alignEnd="@+id/text_value"
         android:checked="false" />
+
+    <Button
+        android:id="@+id/getdetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="230dp"
+        android:layout_marginBottom="17dp"
+        android:onClick="getDetails"
+        android:text="@string/Get_Details" />
 
 </RelativeLayout>

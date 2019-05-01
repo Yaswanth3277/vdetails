@@ -95,12 +95,13 @@ public class BaseClass extends Activity implements View.OnClickListener {
      * @see #createPendingResult
      * @see #setResult(int)
      */
+    String text;
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == RC_OCR_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
-                    String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
+                    text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     statusMessage.setText(R.string.ocr_success);
                     textValue.setText(text);
                     Log.d(TAG, "Text read: " + text);
@@ -117,4 +118,12 @@ public class BaseClass extends Activity implements View.OnClickListener {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    public void getDetails(View view){
+
+        Intent vehicledetails = new Intent(BaseClass.this,vehicleDetails.class);
+        vehicledetails.putExtra("Vehicle_Number",text);
+        startActivity(vehicledetails);
+    }
+
 }
