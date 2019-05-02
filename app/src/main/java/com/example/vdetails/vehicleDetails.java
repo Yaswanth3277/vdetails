@@ -2,11 +2,32 @@ package com.example.vdetails;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class vehicleDetails extends AppCompatActivity {
 
+    String Desc;
     public TextView Registration_Number;
+    public EditText Vehicle_num;
+    public Button get_details;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,13 +36,17 @@ public class vehicleDetails extends AppCompatActivity {
         String Vehicle_number = b.getString("Vehicle_Number");
         Registration_Number = findViewById(R.id.Regno);
         Registration_Number.setText(Vehicle_number);
+        Vehicle_num = findViewById(R.id.Vnum);
+        get_details = findViewById(R.id.button5);
 
+    }
+    public void getNumber(View view){
         try{
 
             String host = "www.regcheck.org.uk";
             Socket socket = new Socket(host, 80);
-// change yourusernamehere
-            String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber=" + Registration_Number + "&username=sauravbv HTTP/1.0\r\n\r\n";
+
+            String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber=KA05KG2990&username=sauravbv HTTP/1.0\r\n\r\n";
             OutputStream os = socket.getOutputStream();
             os.write(request.getBytes());
             os.flush();
@@ -32,7 +57,7 @@ public class vehicleDetails extends AppCompatActivity {
             String read;
 
             while((read=br.readLine()) != null) {
-//System.out.println(read);
+
                 sb.append(read);
             }
 
@@ -40,7 +65,7 @@ public class vehicleDetails extends AppCompatActivity {
             String strXml = sb.toString();
             int intStart = strXml.indexOf("<?xml");
             strXml = strXml.substring(intStart);
-//System.out.print(strXml);
+
             socket.close();
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -52,14 +77,14 @@ public class vehicleDetails extends AppCompatActivity {
             //System.out.print(nNode.getTextContent());
             JSONObject reader = new JSONObject(nNode.getTextContent());
 
-            //JSONObject sys  = reader.getJSONObject("Description");
-            Description = sys.getString("Description");
-
+            //JSONObject sys  = reader.getString("Description");
+            //Desc = reader.getString("Description");
+            Desc = nNode.getTextContent();
         }
         catch(Exception ex)
         {
-            System.out.print("Error");
+            Vehicle_num.setText(ex.toString());
         }
-
+        Vehicle_num.setText(Desc);
     }
 }
