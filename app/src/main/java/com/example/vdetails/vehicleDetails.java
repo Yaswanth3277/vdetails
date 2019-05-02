@@ -53,7 +53,6 @@ public class vehicleDetails extends AppCompatActivity {
         Vehicle_numb = b.getString("Vehicle_Number");
         Vehicle_number = Vehicle_numb.replaceAll("\\s+","");
         Registration_Number = findViewById(R.id.Regno);
-        Vehicle_number.replaceAll("//s+","");
         Registration_Number.setText(Vehicle_number);
         Vehicle_num = findViewById(R.id.Vnum);
         Owner_Name = findViewById(R.id.owner_name);
