@@ -22,7 +22,7 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomeActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +34,7 @@
             android:name="com.example.vdetails.BaseClass"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity android:name=".MainActivity"/>
         <activity android:name="com.example.vdetails.OcrCaptureActivity"
             android:label="Read Text" />
         <activity android:name=".openCamera"
