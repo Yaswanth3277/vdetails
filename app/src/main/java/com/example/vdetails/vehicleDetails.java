@@ -33,7 +33,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class vehicleDetails extends AppCompatActivity {
 
-    String Desc = "";
+    String Vehicle_number;
+    String Vehicle_numb;
     public TextView Registration_Number;
     public EditText Vehicle_num;
     public Button get_details;
@@ -42,9 +43,10 @@ public class vehicleDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vehicle_details);
         Bundle b = this.getIntent().getExtras();
-        String Vehicle_number = b.getString("Vehicle_Number");
+        Vehicle_numb = b.getString("Vehicle_Number");
+        Vehicle_number = Vehicle_numb.replaceAll("\\s+","");
         Registration_Number = findViewById(R.id.Regno);
-
+        Vehicle_number.replaceAll("//s+","");
         Registration_Number.setText(Vehicle_number);
         Vehicle_num = findViewById(R.id.Vnum);
         get_details = findViewById(R.id.button5);
@@ -57,6 +59,8 @@ public class vehicleDetails extends AppCompatActivity {
     class TestAsync extends AsyncTask<Void, Integer, String>
     {
         String Desc = "";
+        String Owner = "";
+        String Insurance = "";
 
         String TAG = getClass().getSimpleName();
 
@@ -73,7 +77,7 @@ public class vehicleDetails extends AppCompatActivity {
                 String host = "www.regcheck.org.uk";
                 Socket socket = new Socket(host, 80);
 
-                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Registration_Number+"&username=sauravph HTTP/1.0\r\n\r\n";
+                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=sauravph HTTP/1.0\r\n\r\n";
                 OutputStream os = socket.getOutputStream();
                 os.write(request.getBytes());
                 os.flush();
