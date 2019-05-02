@@ -1,5 +1,6 @@
 package com.example.vdetails;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,12 @@ public class vehicleDetails extends AppCompatActivity {
     public TextView Registration_Number;
     public EditText Vehicle_num;
     public Button get_details;
+    public EditText Owner_Name;
+    public EditText Insurance;
+    public EditText Vid;
+    public EditText RegDate;
+    public EditText Vfit;
+    public EditText Regloc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +56,22 @@ public class vehicleDetails extends AppCompatActivity {
         Vehicle_number.replaceAll("//s+","");
         Registration_Number.setText(Vehicle_number);
         Vehicle_num = findViewById(R.id.Vnum);
+        Owner_Name = findViewById(R.id.owner_name);
+        Insurance = findViewById(R.id.insurance);
+        Vid = findViewById(R.id.vid);
+        RegDate = findViewById(R.id.Regdate);
+        Vfit = findViewById(R.id.Vfit);
+        Regloc = findViewById(R.id.RegLoc);
         get_details = findViewById(R.id.button5);
         Log.d("Test", "Testing Debug");
 
-        new TestAsync().execute();
+
+        get_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TestAsync().execute();
+            }
+        });
 
     }
 
@@ -60,7 +79,11 @@ public class vehicleDetails extends AppCompatActivity {
     {
         String Desc = "";
         String Owner = "";
-        String Insurance = "";
+        String Insur = "";
+        String VehicleId = "";
+        String RegDat = "";
+        String VehicleFit = "";
+        String RegLoc = "";
 
         String TAG = getClass().getSimpleName();
 
@@ -113,6 +136,12 @@ public class vehicleDetails extends AppCompatActivity {
 
                 //JSONObject sys  = reader.getString("Description");
                 Desc = reader.getString("Description");
+                Owner = reader.getString("Owner");
+                Insur = reader.getString("Insurance");
+                VehicleId = reader.getString("VechileIdentificationNumber");
+                RegDat = reader.getString("RegistrationDate");
+                VehicleFit = reader.getString("Fitness");
+                RegLoc = reader.getString("Location");
                 //Desc = nNode.getTextContent();
 
             } catch (Exception ex) {
@@ -134,6 +163,12 @@ public class vehicleDetails extends AppCompatActivity {
             //super.onPostExecute(result);
             Log.d(TAG + " onPostExecute", "" + result);
             Vehicle_num.setText(Desc);
+            Owner_Name.setText(Owner);
+            Insurance.setText(Insur);
+            Vid.setText(VehicleId);
+            RegDate.setText(RegDat);
+            Vfit.setText(VehicleFit);
+            Regloc.setText(RegLoc);
 
         }
     }
