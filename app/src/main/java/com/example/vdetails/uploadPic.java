@@ -40,6 +40,7 @@ public class uploadPic extends Activity {
     ImageView targetImage;
     Bitmap bitmap;
     TextView textview;
+    Uri targetUri;
 
 
 
@@ -73,13 +74,13 @@ public class uploadPic extends Activity {
         });
     }
 
-    @Override
+   @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK){
-            Uri targetUri = data.getData();
+            targetUri = data.getData();
             textTargetUri.setText(targetUri.toString());
 
             try {
@@ -99,6 +100,7 @@ public class uploadPic extends Activity {
             Log.d(TAG + " PreExceute","On pre Exceute......");
         }
         @TargetApi(Build.VERSION_CODES.O)
+
         protected String doInBackground(Void...arg0) {
             String json_content = "";
             Log.d("Inside TestOpenALPR", "Alpr");
@@ -108,8 +110,11 @@ public class uploadPic extends Activity {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
                 // Read image file to byte array
-                Path path = Paths.get("E://sample.jpg");
-                byte[] data = Files.readAllBytes(path);
+             //   Path path = Paths.get("E:").resolve("sample.jpg");
+
+                // Path path = Paths.get("android.resource://"+ R.drawable.blackwhite);
+
+                byte[] data = Files.readAllBytes(Paths.get("/storage/emulated/0/Telegram/Telegram Images/853503177_270592.jpg"));
 
                 // Encode file bytes to base64
                 byte[] encoded = Base64.getEncoder().encode(data);
