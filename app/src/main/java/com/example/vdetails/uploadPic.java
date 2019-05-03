@@ -2,12 +2,14 @@ package com.example.vdetails;
 
 import java.io.FileNotFoundException;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -100,7 +102,7 @@ public class uploadPic extends Activity {
             super.onPreExecute();
             Log.d(TAG + " PreExceute","On pre Exceute......");
         }
-
+        @TargetApi(Build.VERSION_CODES.O)
         protected String doInBackground(Void...arg0) {
             String json_content = "";
             Log.d("Inside TestOpenALPR", "Alpr");
@@ -110,7 +112,9 @@ public class uploadPic extends Activity {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
                 // Read image file to byte array
-                Path path = Paths.get(targetUri.toString());
+
+                Path path = Paths.get("E://sample.jpg");
+
                 byte[] data = Files.readAllBytes(path);
 
                 // Encode file bytes to base64
@@ -150,7 +154,7 @@ public class uploadPic extends Activity {
             } catch (MalformedURLException e) {
                 Log.d("Bad URL", e.toString());
             } catch (IOException e) {
-                Log.d("Failed to open connection", e.toString());
+                Log.d("Failed to open connect", e.toString());
             }
             return json_content;
         }
