@@ -19,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.net.*;
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 import com.example.vdetails.OcrManager;
@@ -77,6 +79,7 @@ public class uploadPic extends Activity {
    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK){
@@ -110,11 +113,15 @@ public class uploadPic extends Activity {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
                 // Read image file to byte array
+<<<<<<< HEAD
              //   Path path = Paths.get("E:").resolve("sample.jpg");
 
                 // Path path = Paths.get("android.resource://"+ R.drawable.blackwhite);
 
                 byte[] data = Files.readAllBytes(Paths.get("/storage/emulated/0/Telegram/Telegram Images/853503177_270592.jpg"));
+=======
+
+>>>>>>> ea852fcbde84203e281f07057a087933dd8efe28
 
                 // Encode file bytes to base64
                 byte[] encoded = Base64.getEncoder().encode(data);
