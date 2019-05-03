@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
 
-    public ImageButton textView;
-    public ImageButton textView2;
-    public ImageButton textView3;
+    public Button textView;
+    public Button textView2;
+    public Button textView3;
 
     public void init() {
 
