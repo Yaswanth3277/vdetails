@@ -17,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.net.*;
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 import com.example.vdetails.OcrManager;
@@ -38,6 +40,7 @@ public class uploadPic extends Activity {
     ImageView targetImage;
     Bitmap bitmap;
     TextView textview;
+    Uri targetUri;
 
 
 
@@ -74,10 +77,11 @@ public class uploadPic extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK){
-            Uri targetUri = data.getData();
+            targetUri = data.getData();
             textTargetUri.setText(targetUri.toString());
 
             try {
@@ -106,7 +110,7 @@ public class uploadPic extends Activity {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
                 // Read image file to byte array
-                Path path = Paths.get("D://Yaswanth//Projects//Final Year Project//images//blackwhite.jpg");
+                Path path = Paths.get(targetUri.toString());
                 byte[] data = Files.readAllBytes(path);
 
                 // Encode file bytes to base64
