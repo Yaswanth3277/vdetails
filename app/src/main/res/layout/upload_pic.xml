@@ -4,21 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <TextView
+        android:id="@+id/targeturi"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/loadimage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Open Gallary" />
 
-    <TextView
-        android:id="@+id/targeturi"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
     <ImageView
         android:id="@+id/targetimage"
         android:layout_width="fill_parent"
-        android:layout_height="200dp" />
+        android:layout_height="273dp"
+        android:layout_gravity="center"
+        android:contentDescription="TODO" />
 
     <Button
         android:id="@+id/button"
@@ -27,9 +29,23 @@
         android:text="Recognize Text" />
 
     <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingStart="5dp"
+        android:text="Recognized Text"
+        android:textColor="@android:color/black"
+        android:textColorHighlight="#005A1F1F"
+        android:textSize="24dp" />
+
+    <EditText
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="210dp" />
+        android:layout_height="72dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="30" />
 
     <Button
         android:id="@+id/button7"
