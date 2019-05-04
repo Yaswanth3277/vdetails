@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +16,11 @@ import android.widget.TextView;
 
 import com.example.vdetails.OcrManager;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
-    private int STORAGE_PERMISSION_CODE = 1;
 
-    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
 
     public Button textView;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePic =new Intent(MainActivity.this,BaseClass.class);
+                Intent takePic =new Intent(MainActivity.this,takePic.class);
                 startActivity(takePic);
             }
         });
@@ -61,10 +62,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String folder_main = "Vdetails";
+
+        File f = new File(Environment.getExternalStorageDirectory(), folder_main);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        File f1 = new File(Environment.getExternalStorageDirectory() + "/" + folder_main, "Images");
+        if (!f1.exists()) {
+            f1.mkdirs();
+        }
         init();
         int Permission_All = 1;
 
-        String[] Permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, };
+        String[] Permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if(!hasPermissions(this, Permissions)){
             ActivityCompat.requestPermissions(this, Permissions, Permission_All);
         }

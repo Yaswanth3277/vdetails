@@ -24,7 +24,7 @@
         android:text="Recognize Text" />
 
     <TextView
-        android:id="@+id/textDisp"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="229dp" />
 </LinearLayout>

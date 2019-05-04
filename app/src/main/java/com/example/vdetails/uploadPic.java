@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,20 +22,11 @@ import java.net.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Base64;
 
 
-import com.example.vdetails.OcrManager;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
@@ -129,7 +119,7 @@ public class uploadPic extends Activity {
         protected String doInBackground(Void...arg0) {
             String json_content = "";
             Log.d("Inside TestOpenALPR", "Alpr");
-            textview = findViewById(R.id.textDisp);
+            textview = findViewById(R.id.textView);
             try {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 

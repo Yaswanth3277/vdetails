@@ -1,10 +1,16 @@
 package com.example.vdetails;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,9 +29,11 @@ import java.net.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.Base64;
+import java.util.Random;
 
 import com.example.vdetails.OcrManager;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -34,6 +42,8 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import static com.google.android.gms.internal.zzs.TAG;
+
 
 public class takePic extends Activity {
     private int STORAGE_PERMISSION_CODE = 1;
@@ -41,6 +51,9 @@ public class takePic extends Activity {
     private static final int CAMERA_PIC_REQUEST = 2500;
 
     Bitmap image;
+    String fname;
+    String platenumber;
+    TextView textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,8 @@ public class takePic extends Activity {
         setContentView(R.layout.take_pic);
 
         Button b = findViewById(R.id.Button01);
+        Button butt = findViewById(R.id.button2);
+        textview = findViewById(R.id.textView);
         b.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
@@ -71,93 +86,13 @@ public class takePic extends Activity {
                 startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
             }
         });
-
-        class TestAsync extends AsyncTask<Void, Integer, String>
-        {
-            String Desc = "";
-            String Owner = "";
-            String Insur = "";
-            String VehicleId = "";
-            String RegDat = "";
-            String VehicleFit = "";
-            String RegLoc = "";
-
-            String TAG = getClass().getSimpleName();
-
-            protected void onPreExecute (){
-                super.onPreExecute();
-                Log.d(TAG + " PreExceute","On pre Exceute......");
+        butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new takePic.TestOpenALPR().execute();
             }
+        });
 
-            protected String doInBackground(Void...arg0) {
-                Log.d(TAG + " DoINBackGround","On doInBackground...");
-
-                try {
-
-                    String host = "doc.openalpr.com";
-                    Socket socket = new Socket(host, 80);
-
-                    String request = "GET http://doc.openalpr.com/api/?api=cloudapi#/default/recognizeFile HTTP/1.0\r\n\r\n";
-                    OutputStream os = socket.getOutputStream();
-                    os.write(request.getBytes());
-                    os.flush();
-
-                    InputStream in = socket.getInputStream();
-                    StringBuilder sb = new StringBuilder();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                    String read;
-
-                    while ((read = br.readLine()) != null) {
-
-                        sb.append(read);
-                    }
-
-                    br.close();
-
-
-                    String strXml = sb.toString();
-                    Log.d("str", strXml);
-                    int intStart = strXml.indexOf("<?xml");
-                    strXml = strXml.substring(intStart);
-
-                    socket.close();
-
-                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder builder = factory.newDocumentBuilder();
-                    ByteArrayInputStream input = new ByteArrayInputStream(strXml.getBytes("UTF-8"));
-                    Document doc = builder.parse(input);
-                    NodeList nList = doc.getElementsByTagName("vehicleJson");
-                    Node nNode = nList.item(0);
-                    Log.d("Output", nNode.getTextContent());
-                    JSONObject reader = new JSONObject(nNode.getTextContent());
-
-                    //JSONObject sys  = reader.getString("Description");
-                    Desc = reader.getString("Description");
-
-                    //Desc = nNode.getTextContent();
-
-                } catch (Exception ex) {
-                    Log.d("Error", ex.toString());
-                }
-                Log.d("output", Desc);
-
-
-
-                return Desc;
-            }
-
-            protected void onProgressUpdate(Integer...a){
-                super.onProgressUpdate(a);
-                Log.d(TAG + " onProgressUpdate", "You are in progress update ... " + a[0]);
-            }
-
-            protected void onPostExecute(String result) {
-                //super.onPostExecute(result);
-                Log.d(TAG + " onPostExecute", "" + result);
-
-
-            }
-        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,6 +100,26 @@ public class takePic extends Activity {
             image = (Bitmap) data.getExtras().get("data");
             ImageView imageview =  findViewById(R.id.ImageView01);
             imageview.setImageBitmap(image);
+        }
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/Vdetails/images");
+        myDir.mkdirs();
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        fname = "Image-" + n + ".jpg";
+        File file = new File(myDir, fname);
+        Log.i(TAG, "" + file);
+        if (file.exists())
+            file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            Log.d("Images","Stored Successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -218,7 +173,7 @@ public class takePic extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityCompat.requestPermissions(takePic.this,
-                                    new String[] {Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
+                                    new String[]{Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -231,8 +186,104 @@ public class takePic extends Activity {
 
         } else {
             ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
+                    new String[]{Manifest.permission.CAMERA}, STORAGE_PERMISSION_CODE);
         }
+    }
+
+    class TestOpenALPR extends AsyncTask<Void,Integer,String> {
+
+        protected void onPreExecute (){
+            super.onPreExecute();
+            Log.d(TAG + " PreExceute","On pre Exceute......");
+        }
+        @TargetApi(Build.VERSION_CODES.O)
+
+        protected String doInBackground(Void...arg0) {
+            String json_content = "";
+            Log.d("Inside TestOpenALPR", "Alpr");
+            try {
+                String secret_key = "sk_f7df03c694ef69992d41ec5f";
+
+                // Read image file to byte array
+                //   Path path = Paths.get("E:").resolve("sample.jpg");
+
+                // Path path = Paths.get("android.resource://"+ R.drawable.blackwhite);
+
+                byte[] data = Files.readAllBytes(Paths.get("/storage/emulated/0/Vdetails/images/"+fname));
+
+
+                // Encode file bytes to base64
+                byte[] encoded = Base64.getEncoder().encode(data);
+
+
+                // Setup the HTTPS connection to api.openalpr.com
+                URL url = new URL("https://api.openalpr.com/v2/recognize_bytes?secret_key=sk_f7df03c694ef69992d41ec5f&recognize_vehicle=0&country=in&return_image=0&topn=10");
+                URLConnection con = url.openConnection();
+                HttpURLConnection http = (HttpURLConnection) con;
+                http.setRequestMethod("POST"); // PUT is another valid option
+                http.setFixedLengthStreamingMode(encoded.length);
+                http.setDoOutput(true);
+
+                // Send our Base64 content over the stream
+                try (OutputStream os = http.getOutputStream()) {
+                    os.write(encoded);
+                }
+
+                int status_code = http.getResponseCode();
+                if (status_code == 200) {
+                    // Read the response
+                    BufferedReader in = new BufferedReader(new InputStreamReader(
+                            http.getInputStream()));
+
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null)
+                        json_content += inputLine;
+                    in.close();
+
+                    Log.d("Json Content", json_content);
+                    JSONObject resultreader = new JSONObject(json_content);
+
+                    Log.d("JSON object", resultreader.toString());
+                    JSONArray platearray = resultreader.getJSONArray("results");
+
+                    Log.d("JSON Array",platearray.toString());
+                    JSONObject platedetails = platearray.getJSONObject(0);
+
+                    Log.d("Inner JSON Object", platedetails.toString());
+                    platenumber = platedetails.getString("plate");
+
+                    Log.d("Plate numbers",platenumber);
+
+
+
+                } else {
+                    Log.d("Got non-200 response: ", Integer.toString(status_code));
+                }
+
+
+            } catch (MalformedURLException e) {
+                Log.d("Bad URL", e.toString());
+            } catch (IOException e) {
+                Log.d("Failed to open connect", e.toString());
+            }
+            catch(Exception e){
+                Log.d("Others",e.toString());
+            }
+            return platenumber;
+        }
+
+        protected void onProgressUpdate(Integer...a){
+            super.onProgressUpdate(a);
+            Log.d(TAG + " onProgressUpdate", "You are in progress update ... " + a[0]);
+        }
+
+        protected void onPostExecute(String result) {
+            //super.onPostExecute(result);
+            Log.d(TAG + " onPostExecute", "" + result);
+            textview.setText(platenumber);
+
+        }
+
     }
 
 }
