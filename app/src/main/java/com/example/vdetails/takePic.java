@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.support.v4.content.ContextCompat;
 import android.Manifest;
@@ -53,7 +54,8 @@ public class takePic extends Activity {
     Bitmap image;
     String fname;
     String platenumber;
-    TextView textview;
+    EditText textview;
+    ImageView imageview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class takePic extends Activity {
         Button butt = findViewById(R.id.button2);
         Button getDetails = findViewById(R.id.button6);
         textview = findViewById(R.id.textView);
+        imageview =  findViewById(R.id.ImageView01);
         b.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
@@ -98,7 +101,7 @@ public class takePic extends Activity {
             @Override
             public void onClick(View v) {
 
-                if(textview.getText() == "" || textview.getText() == null){
+                if(imageview.getDrawable()  == null){
 
                     Toast.makeText(takePic.this,"No Registration Number to get Details",Toast.LENGTH_SHORT).show();
                 }
@@ -115,7 +118,6 @@ public class takePic extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_PIC_REQUEST) {
             image = (Bitmap) data.getExtras().get("data");
-            ImageView imageview =  findViewById(R.id.ImageView01);
             imageview.setImageBitmap(image);
         }
         String root = Environment.getExternalStorageDirectory().toString();
