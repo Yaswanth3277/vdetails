@@ -94,7 +94,7 @@ public class vehicleDetails extends AppCompatActivity {
                 String host = "www.regcheck.org.uk";
                 Socket socket = new Socket(host, 80);
 
-                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=Anonymous HTTP/1.0\r\n\r\n";
+                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=vinayr HTTP/1.0\r\n\r\n";
                 OutputStream os = socket.getOutputStream();
                 os.write(request.getBytes());
                 os.flush();
