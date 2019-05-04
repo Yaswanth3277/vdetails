@@ -48,6 +48,7 @@ public class uploadPic extends Activity {
     TextView textview;
     Uri targetUri;
     File file;
+    String platenumber;
 
 
 
@@ -171,10 +172,18 @@ public class uploadPic extends Activity {
                     Log.d("Json Content", json_content);
                     JSONObject resultreader = new JSONObject(json_content);
 
-                    String plates = resultreader.getString("results");
-                    JSONArray platereader = new JSONArray(plates);
+                    Log.d("JSON object", resultreader.toString());
+                    JSONArray platearray = resultreader.getJSONArray("results");
 
-                    Log.d("Result",platereader.getJSONArray(0).toString());
+                    Log.d("JSON Array",platearray.toString());
+                    JSONObject platedetails = platearray.getJSONObject(0);
+
+                    Log.d("Inner JSON Object", platedetails.toString());
+                    platenumber = platedetails.getString("plate");
+
+                    Log.d("Plate numbers",platenumber);
+
+
 
                 } else {
                     Log.d("Got non-200 response: ", Integer.toString(status_code));
@@ -189,7 +198,7 @@ public class uploadPic extends Activity {
             catch(Exception e){
                 Log.d("Others",e.toString());
             }
-            return json_content;
+            return platenumber;
         }
 
         protected void onProgressUpdate(Integer...a){
@@ -200,6 +209,7 @@ public class uploadPic extends Activity {
         protected void onPostExecute(String result) {
             //super.onPostExecute(result);
             Log.d(TAG + " onPostExecute", "" + result);
+            textview.setText(platenumber);
 
         }
 
