@@ -64,13 +64,8 @@ public class vehicleDetails extends AppCompatActivity {
         get_details = findViewById(R.id.button5);
         Log.d("Test", "Testing Debug");
 
+        new TestAsync().execute();
 
-        get_details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new TestAsync().execute();
-            }
-        });
 
     }
 
