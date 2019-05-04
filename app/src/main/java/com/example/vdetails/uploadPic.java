@@ -16,8 +16,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.net.*;
 import java.io.*;
 import java.nio.file.Paths;
@@ -35,7 +38,7 @@ public class uploadPic extends Activity {
     TextView textTargetUri;
     ImageView targetImage;
     Bitmap bitmap;
-    TextView textview;
+    EditText textview;
     Uri targetUri;
     File file;
     String platenumber;
@@ -54,6 +57,7 @@ public class uploadPic extends Activity {
         textTargetUri = findViewById(R.id.targeturi);
         targetImage = findViewById(R.id.targetimage);
         Button butt = findViewById(R.id.button);
+        textview = findViewById(R.id.textView);
 
         buttonLoadImage.setOnClickListener(new Button.OnClickListener(){
 
@@ -75,9 +79,15 @@ public class uploadPic extends Activity {
         vehicleDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent vehicledetails = new Intent(uploadPic.this,vehicleDetails.class);
-                vehicledetails.putExtra("Vehicle_Number",platenumber);
-                startActivity(vehicledetails);
+                if(targetImage.getDrawable() == null){
+
+                    Toast.makeText(uploadPic.this,"No Registration Number to get Details",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent vehicledetails = new Intent(uploadPic.this, vehicleDetails.class);
+                    vehicledetails.putExtra("Vehicle_Number", platenumber);
+                    startActivity(vehicledetails);
+                }
             }
         });
     }
@@ -129,7 +139,7 @@ public class uploadPic extends Activity {
         protected String doInBackground(Void...arg0) {
             String json_content = "";
             Log.d("Inside TestOpenALPR", "Alpr");
-            textview = findViewById(R.id.textView);
+
             try {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 

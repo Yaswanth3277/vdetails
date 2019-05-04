@@ -97,9 +97,16 @@ public class takePic extends Activity {
         getDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent vehicledetails = new Intent(takePic.this,vehicleDetails.class);
-                vehicledetails.putExtra("Vehicle_Number",platenumber);
-                startActivity(vehicledetails);
+
+                if(textview.getText() == "" || textview.getText() == null){
+
+                    Toast.makeText(takePic.this,"No Registration Number to get Details",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent vehicledetails = new Intent(takePic.this, vehicleDetails.class);
+                    vehicledetails.putExtra("Vehicle_Number", platenumber);
+                    startActivity(vehicledetails);
+                }
             }
         });
 
