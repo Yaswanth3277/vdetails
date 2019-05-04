@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +26,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
+
 import com.example.vdetails.OcrManager;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -43,6 +47,7 @@ public class uploadPic extends Activity {
     Bitmap bitmap;
     TextView textview;
     Uri targetUri;
+    File file;
 
 
 
@@ -84,7 +89,9 @@ public class uploadPic extends Activity {
 
         if (resultCode == RESULT_OK){
             targetUri = data.getData();
-            textTargetUri.setText(targetUri.toString());
+            file = new File(getRealPathFromURI(targetUri));
+            Log.d("Path",file.toString());
+            textTargetUri.setText(file.toString());
 
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
@@ -94,6 +101,20 @@ public class uploadPic extends Activity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
     class TestOpenALPR extends AsyncTask<Void,Integer,String> {
@@ -108,7 +129,6 @@ public class uploadPic extends Activity {
             String json_content = "";
             Log.d("Inside TestOpenALPR", "Alpr");
             textview = findViewById(R.id.textDisp);
-            textview.setText("working");
             try {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
@@ -117,7 +137,7 @@ public class uploadPic extends Activity {
 
                 // Path path = Paths.get("android.resource://"+ R.drawable.blackwhite);
 
-                byte[] data = Files.readAllBytes(Paths.get("/storage/emulated/0/Telegram/Telegram Images/853503177_270592.jpg"));
+                byte[] data = Files.readAllBytes(Paths.get(file.toString()));
 
 
                 // Encode file bytes to base64
@@ -149,6 +169,13 @@ public class uploadPic extends Activity {
                     in.close();
 
                     Log.d("Json Content", json_content);
+                    JSONObject resultreader = new JSONObject(json_content);
+
+                    String plates = resultreader.getString("results");
+                    JSONArray platereader = new JSONArray(plates);
+
+                    Log.d("Result",platereader.getJSONArray(0).toString());
+
                 } else {
                     Log.d("Got non-200 response: ", Integer.toString(status_code));
                 }
@@ -158,6 +185,9 @@ public class uploadPic extends Activity {
                 Log.d("Bad URL", e.toString());
             } catch (IOException e) {
                 Log.d("Failed to open connect", e.toString());
+            }
+            catch(Exception e){
+                Log.d("Others",e.toString());
             }
             return json_content;
         }
