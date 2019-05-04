@@ -62,6 +62,7 @@ public class takePic extends Activity {
 
         Button b = findViewById(R.id.Button01);
         Button butt = findViewById(R.id.button2);
+        Button getDetails = findViewById(R.id.button6);
         textview = findViewById(R.id.textView);
         b.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -90,6 +91,15 @@ public class takePic extends Activity {
             @Override
             public void onClick(View v) {
                 new takePic.TestOpenALPR().execute();
+            }
+        });
+
+        getDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vehicledetails = new Intent(takePic.this,vehicleDetails.class);
+                vehicledetails.putExtra("Vehicle_Number",platenumber);
+                startActivity(vehicledetails);
             }
         });
 

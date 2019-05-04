@@ -50,6 +50,7 @@ public class uploadPic extends Activity {
         OcrManager manager = new OcrManager();
         manager.initAPI();
         Button buttonLoadImage = findViewById(R.id.loadimage);
+        Button vehicleDetails = findViewById(R.id.button7);
         textTargetUri = findViewById(R.id.targeturi);
         targetImage = findViewById(R.id.targetimage);
         Button butt = findViewById(R.id.button);
@@ -68,6 +69,15 @@ public class uploadPic extends Activity {
             @Override
             public void onClick(View v) {
                 new TestOpenALPR().execute();
+            }
+        });
+
+        vehicleDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vehicledetails = new Intent(uploadPic.this,vehicleDetails.class);
+                vehicledetails.putExtra("Vehicle_Number",platenumber);
+                startActivity(vehicledetails);
             }
         });
     }
