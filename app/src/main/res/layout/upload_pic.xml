@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingStart="5dp"
-        android:text="Recognized Text"
+        android:text="Detected Registration No."
         android:textColor="@android:color/black"
         android:textColorHighlight="#005A1F1F"
         android:textSize="24dp" />
