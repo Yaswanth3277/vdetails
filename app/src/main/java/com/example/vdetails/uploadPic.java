@@ -113,15 +113,12 @@ public class uploadPic extends Activity {
                 String secret_key = "sk_f7df03c694ef69992d41ec5f";
 
                 // Read image file to byte array
-<<<<<<< HEAD
              //   Path path = Paths.get("E:").resolve("sample.jpg");
 
                 // Path path = Paths.get("android.resource://"+ R.drawable.blackwhite);
 
                 byte[] data = Files.readAllBytes(Paths.get("/storage/emulated/0/Telegram/Telegram Images/853503177_270592.jpg"));
-=======
 
->>>>>>> ea852fcbde84203e281f07057a087933dd8efe28
 
                 // Encode file bytes to base64
                 byte[] encoded = Base64.getEncoder().encode(data);
