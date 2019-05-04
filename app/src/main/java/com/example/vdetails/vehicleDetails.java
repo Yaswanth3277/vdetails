@@ -78,7 +78,6 @@ public class vehicleDetails extends AppCompatActivity {
         String RegDat = "";
         String VehicleFit = "";
         String RegLoc = "";
-        String[] Vehicledata = new String[7];
 
         String TAG = getClass().getSimpleName();
 
@@ -95,7 +94,7 @@ public class vehicleDetails extends AppCompatActivity {
                 String host = "www.regcheck.org.uk";
                 Socket socket = new Socket(host, 80);
 
-                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=shwetha HTTP/1.0\r\n\r\n";
+                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=lolwa HTTP/1.0\r\n\r\n";
                 OutputStream os = socket.getOutputStream();
                 os.write(request.getBytes());
                 os.flush();
@@ -130,28 +129,51 @@ public class vehicleDetails extends AppCompatActivity {
                 JSONObject reader = new JSONObject(nNode.getTextContent());
 
                 //JSONObject sys  = reader.getString("Description");
-                Desc = reader.getString("Description");
-                Owner = reader.getString("Owner");
-                Insur = reader.getString("Insurance");
-                VehicleId = reader.getString("VechileIdentificationNumber");
-                RegDat = reader.getString("RegistrationDate");
-                VehicleFit = reader.getString("Fitness");
-                RegLoc = reader.getString("Location");
+                if(reader.has("Description")) {
+                    Desc = reader.getString("Description");
+                }else{
+                    Desc = "Not Available";
+                }
+
+                if(reader.has("Insurance")) {
+                    Insur = reader.getString("Insurance");
+                }else{
+                    Insur = "Not Available";
+                }
+
+                if(reader.has("VechileIdentificationNumber")) {
+                    VehicleId = reader.getString("VechileIdentificationNumber");
+                }else{
+                    VehicleId = "Not Available";
+                }
+
+                if(reader.has("RegistrationDater")) {
+                    RegDat = reader.getString("RegistrationDate");
+                }else{
+                    RegDat = "Not Available";
+                }
+
+                if(reader.has("Fitness")) {
+                    VehicleFit = reader.getString("Fitness");
+                }else{
+                    VehicleFit = "Not Available";
+                }
+
+                if(reader.has("Location")) {
+                    RegLoc = reader.getString("Location");
+                }else{
+                    RegLoc = "Not Available";
+                }
+
+                if(reader.has("Owner")) {
+                    Owner = reader.getString("Owner");
+                }else{
+                    Owner = "Not Available";
+                }
+
+
                 //Desc = nNode.getTextContent();
 
-
-                Vehicledata[0] = Desc;
-                Vehicledata[1] = Owner;
-                Vehicledata[2] = Insur;
-                Vehicledata[3] = VehicleId;
-                Vehicledata[4] = RegDat;
-                Vehicledata[5] = VehicleFit;
-                Vehicledata[6] = RegLoc;
-
-                for(int i=0;i<=6;i++){
-
-                    Log.d("Vehicledata",Vehicledata[i]);
-                }
 
 
             } catch (Exception ex) {
@@ -172,13 +194,48 @@ public class vehicleDetails extends AppCompatActivity {
         protected void onPostExecute(String result) {
             //super.onPostExecute(result);
             Log.d(TAG + " onPostExecute", "" + result);
-            Vehicle_num.setText(Vehicledata[0]);
-            Owner_Name.setText(Vehicledata[1]);
-            Insurance.setText(Vehicledata[2]);
-            Vid.setText(Vehicledata[3]);
-            RegDate.setText(Vehicledata[4]);
-            Vfit.setText(Vehicledata[5]);
-            Regloc.setText(Vehicledata[6]);
+
+            if(!Desc.equals("")) {
+                Vehicle_num.setText(Desc);
+            }else{
+                Vehicle_num.setText("Not Available");
+            }
+
+            if(!Owner.equals("")) {
+                Owner_Name.setText(Owner);
+            }else{
+                Owner_Name.setText("Not Available");
+            }
+
+            if(!Insur.equals("")) {
+                Insurance.setText(Insur);
+            }else{
+                Insurance.setText("Not Available");
+            }
+
+            if(!VehicleId.equals("")) {
+                Vid.setText(VehicleId);
+            }else{
+                Vid.setText("Not Available");
+            }
+
+            if(!RegDat.equals("")) {
+                RegDate.setText(RegDat);
+            }else{
+                RegDate.setText("Not Available");
+            }
+
+            if(!VehicleFit.equals("")) {
+                Vfit.setText(VehicleFit);
+            }else{
+                Vfit.setText("Not Available");
+            }
+
+            if(!RegLoc.equals("")) {
+                Regloc.setText(RegLoc);
+            }else{
+                Regloc.setText("Not Available");
+            }
 
         }
     }
