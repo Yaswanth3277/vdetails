@@ -45,6 +45,7 @@ public class vehicleDetails extends AppCompatActivity {
     public EditText RegDate;
     public EditText Vfit;
     public EditText Regloc;
+    public EditText FuelType;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class vehicleDetails extends AppCompatActivity {
         RegDate = findViewById(R.id.Regdate);
         Vfit = findViewById(R.id.Vfit);
         Regloc = findViewById(R.id.RegLoc);
-        get_details = findViewById(R.id.button5);
+        FuelType = findViewById(R.id.fuelType);
         Log.d("Test", "Testing Debug");
 
         new TestAsync().execute();
@@ -78,6 +79,8 @@ public class vehicleDetails extends AppCompatActivity {
         String RegDat = "";
         String VehicleFit = "";
         String RegLoc = "";
+        String fueltype = "";
+        String fueltypename = "";
 
         String TAG = getClass().getSimpleName();
 
@@ -94,7 +97,7 @@ public class vehicleDetails extends AppCompatActivity {
                 String host = "www.regcheck.org.uk";
                 Socket socket = new Socket(host, 80);
 
-                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=neeleshs HTTP/1.0\r\n\r\n";
+                String request = "GET http://www.regcheck.org.uk/api/reg.asmx/CheckIndia?RegistrationNumber="+Vehicle_number+"&username=shashi HTTP/1.0\r\n\r\n";
                 OutputStream os = socket.getOutputStream();
                 os.write(request.getBytes());
                 os.flush();
@@ -171,6 +174,16 @@ public class vehicleDetails extends AppCompatActivity {
                     Owner = "Not Available";
                 }
 
+                if(reader.has("FuelType")) {
+                    fueltype = reader.getString("FuelType");
+                    JSONObject fuelreader = new JSONObject(fueltype);
+                    fueltypename = fuelreader.getString("CurrentTextValue");
+                }
+                else{
+                    fueltypename = "Not Available";
+                }
+
+
 
                 //Desc = nNode.getTextContent();
 
@@ -235,6 +248,15 @@ public class vehicleDetails extends AppCompatActivity {
                 Regloc.setText(RegLoc);
             }else{
                 Regloc.setText("Not Available");
+            }
+
+            if(!fueltypename.equals("")){
+
+                FuelType.setText(fueltypename);
+            }
+            else{
+
+                FuelType.setText("Not Available");
             }
 
         }

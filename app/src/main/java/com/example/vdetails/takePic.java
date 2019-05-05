@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -42,7 +43,7 @@ public class takePic extends Activity {
     Bitmap image;
     String fname;
     String platenumber;
-    EditText textview;
+    TextView textview;
     ImageView imageview;
 
     @Override

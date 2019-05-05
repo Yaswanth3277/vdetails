@@ -33,14 +33,10 @@
         android:textColor="#000000"
         android:textSize="24dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="148dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="#000000"
-        android:textSize="24dp" />
+        android:layout_height="96dp" />
 
     <Button
         android:id="@+id/button6"
