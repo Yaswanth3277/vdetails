@@ -18,8 +18,7 @@
         android:label="VDetails"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".MainApplication">
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
@@ -31,15 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.vdetails.BaseClass"
-            android:label="@string/title_activity_main" >
-        </activity>
         <activity android:name=".MainActivity"/>
-        <activity android:name="com.example.vdetails.OcrCaptureActivity"
-            android:label="Read Text" />
-        <activity android:name=".openCamera"
-            android:label="@string/app_name"/>
         <activity android:name=".uploadPic"/>
         <activity android:name=".takePic"/>
         <activity android:name=".uploadVid"/>

@@ -3,14 +3,11 @@ package com.example.vdetails;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -32,16 +28,8 @@ import java.nio.file.*;
 import java.util.Base64;
 import java.util.Random;
 
-import com.example.vdetails.OcrManager;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import static com.google.android.gms.internal.zzs.TAG;
 
@@ -101,7 +89,7 @@ public class takePic extends Activity {
             @Override
             public void onClick(View v) {
 
-                if(imageview.getDrawable()  == null){
+                if(imageview.getDrawable()  == null || textview.getText().toString().matches("")){
 
                     Toast.makeText(takePic.this,"No Registration Number to get Details",Toast.LENGTH_SHORT).show();
                 }

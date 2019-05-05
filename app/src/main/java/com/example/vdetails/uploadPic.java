@@ -50,8 +50,6 @@ public class uploadPic extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_pic);
 
-        OcrManager manager = new OcrManager();
-        manager.initAPI();
         Button buttonLoadImage = findViewById(R.id.loadimage);
         Button vehicleDetails = findViewById(R.id.button7);
         textTargetUri = findViewById(R.id.targeturi);
@@ -79,7 +77,7 @@ public class uploadPic extends Activity {
         vehicleDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(targetImage.getDrawable() == null){
+                if(targetImage.getDrawable() == null || textview.getText().toString().matches("")){
 
                     Toast.makeText(uploadPic.this,"No Registration Number to get Details",Toast.LENGTH_SHORT).show();
                 }
