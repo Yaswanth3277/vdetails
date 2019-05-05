@@ -59,7 +59,7 @@
             android:drawableTop="@drawable/video"
             android:gravity="center"
             android:paddingTop="50dp"
-            android:text="@string/upload_video"
+            android:text="Enter Reg No"
             android:textSize="24sp"
 
             android:layout_height="wrap_content" />
