@@ -38,7 +38,7 @@ public class uploadPic extends Activity {
     TextView textTargetUri;
     ImageView targetImage;
     Bitmap bitmap;
-    EditText textview;
+    TextView textview;
     Uri targetUri;
     File file;
     String platenumber;
