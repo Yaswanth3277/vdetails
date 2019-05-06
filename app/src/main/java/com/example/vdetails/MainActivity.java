@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         textView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent uploadVid =new Intent(MainActivity.this,uploadVid.class);
-                startActivity(uploadVid);
+                Intent enterReg =new Intent(MainActivity.this,EnterRno.class);
+                startActivity(enterReg);
             }
         });
     }
